@@ -1,5 +1,5 @@
 import { useReducer } from "react"
-import Forms from "./components/Form"
+import Form from "./components/Form"
 import { activityReducer, initialState } from "./reducers/activity-reducer"
 import ActivityList from "./components/ActivityList"
 
@@ -20,14 +20,18 @@ function App() {
 
       <section className="bg-lime-500 py-20 px-5">
         <div className="maw-w-4xl mx-auto">
-          <Forms
+          <Form
             dispatch ={dispatch}
+            state={state}
           />
         </div>
       </section>
       <section className="p-10 mx-auto max-w-4xl">
         <ActivityList 
-          activities={state.activities}/>
+          activities={state.activities}
+          dispatch ={dispatch}
+        />
+          
       </section>
     </>
   )
