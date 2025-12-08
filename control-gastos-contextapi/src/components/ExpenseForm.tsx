@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css'
 
 import type { DraftExpense, Value } from "../types";
 import ErrorMessage from "./ErrorMessage";
+import { useBudget } from "../hooks/useBudget";
 
 export default function ExpenseForm() {
 
@@ -18,7 +19,8 @@ export default function ExpenseForm() {
   })
 
   const [error, setError] = useState('')
-  
+  const {dispatch} = useBudget()
+
   const handleChange = ( e :  ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     const {name, value} = e.target
     const isAmountField = ['amount'].includes(name)
@@ -45,6 +47,17 @@ export default function ExpenseForm() {
       return error
     }
 
+    //Agregar un gasto nuevo
+    dispatch({type: 'add-expense', payload: {expense}})
+    
+    //Reiniciar el modal
+    setExpense({
+      amount: 0,
+      expenseName: '',
+      category: '',
+      date: new Date()
+    })
+
   }
 
   return (
@@ -69,6 +82,7 @@ export default function ExpenseForm() {
           className="bg-slate-100 p-2"
           name="expenseName"
           onChange={handleChange}
+          value={expense.expenseName}
         />
       </div>
 
@@ -84,6 +98,7 @@ export default function ExpenseForm() {
           className="bg-slate-100 p-2"
           name="amount"
           onChange={handleChange}
+          value={expense.amount}
         />
       </div>
 
@@ -97,6 +112,7 @@ export default function ExpenseForm() {
           className="bg-slate-100 p-2"
           name="category"
           onChange={handleChange}
+          value={expense.category}
         >
           <option value= "">-- Selecione --</option>
           {categories.map(category =>(
@@ -115,8 +131,8 @@ export default function ExpenseForm() {
         >Fecha Gasto:</label>
         <DatePicker 
           className="bg-slate-100 p-2 border-0"
-          value={expense.date}
           onChange={handleChangeDate}
+          value={expense.date}
         />
       </div>
 
