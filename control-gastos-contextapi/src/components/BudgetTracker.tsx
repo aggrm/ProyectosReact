@@ -4,7 +4,7 @@ export default function BudgetTracker() {
   return (
     <div className="grid grid-cols-1 md:grid grid-cols-2 gap-5">
         <div className="flex justify-center">
-            <img src="../../public/grafico.jpg" alt="Grafica de gastos" />
+            <img src="/grafico.jpg" alt="Grafica de gastos" />
         </div>
 
          <div className="flex flex-col justify-center items-center gap-8">
