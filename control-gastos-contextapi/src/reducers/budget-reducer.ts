@@ -6,18 +6,22 @@ export type BudgetActions =
     { type: 'show-modal'} |
     { type: 'close-modal'} |
     { type: 'add-expense', payload: {expense: DraftExpense}} |
-    { type: 'remove-expense', payload: {id: Expense['id']}} 
+    { type: 'remove-expense', payload: {id: Expense['id']}} |
+    { type: 'get-expense-by-id', payload: {id: Expense['id']}} |
+    { type: 'update-expense', payload: {expense: Expense}}
 
 export type BudgetState =  {
     budget: number
     modal: boolean
     expenses: Expense[]
+    editingId: Expense['id']
 }
 
 export const initialState : BudgetState = {
     budget: 0,
     modal: false,
-    expenses: []
+    expenses: [],
+    editingId: ''
 }
 
 const createExpense = (draftExpense: DraftExpense) : Expense => {
@@ -40,7 +44,8 @@ export const budgetReducer = (state: BudgetState = initialState, action: BudgetA
     if(action.type === "show-modal"){
         return{
             ...state, 
-            modal: true
+            modal: true,
+            editingId: ''
         }
     }
 
@@ -66,6 +71,24 @@ export const budgetReducer = (state: BudgetState = initialState, action: BudgetA
             expenses: state.expenses.filter( expense => expense.id !== action.payload.id)
         }
     }
+
+    if(action.type === "get-expense-by-id"){
+        return{
+            ...state,
+            editingId: action.payload.id,
+            modal: true
+        }
+    }
+
+    if(action.type === "update-expense"){
+        return{
+            ...state,
+            expenses: state.expenses.map(expense => expense.id === action.payload.expense.id ? action.payload.expense : expense),
+            modal: false,
+            editingId: ''
+        }
+    }
+
 
     return state
 }
