@@ -19,6 +19,11 @@
     color: var(--white);
 }
 
+.form select option {
+	background-color: white;
+	color: black;
+}
+
 .submit {
     background-color: var(--primary);
     border: none;
