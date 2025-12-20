@@ -5,8 +5,10 @@ import type { Pair } from "../types"
 import ErrorMessage from "./ErrorMessage"
 
 
-export default function CriptoSearchForm() {
+export default function CryptoSearchForm() {
     const cryptocurrencies = useCryptoStore((state) => state.cryptocurrencies)
+    const fetchData = useCryptoStore((state) => state.fetchData)
+    
     const [pair, setPair] = useState<Pair>({
         currency: '',
         criptocurrency: ''
@@ -29,6 +31,7 @@ export default function CriptoSearchForm() {
         }
 
         setError('')
+        fetchData(pair)
 
         //consultar la api
     }

@@ -1,11 +1,15 @@
 import { useEffect } from "react"
-import CriptoSearchForm from "./components/CriptoSearchForm"
+import CryptoPriceDisplay from "./components/CryptoPriceDisplay"
 import { useCryptoStore } from "./store/store"
+import CryptoSearchForm from "./components/CryptoSearchForm"
 
 function App() {
   const fetchCryptos = useCryptoStore((state) => state.fetchCryptos)
 
-  useEffect(() => {fetchCryptos()}, [])
+  useEffect(() => {
+    fetchCryptos()
+  }, [])
+
   return (
     <>
       <div className="container">
@@ -14,7 +18,8 @@ function App() {
           </h1>
 
           <div className="content">
-            <CriptoSearchForm />
+              <CryptoSearchForm />
+              <CryptoPriceDisplay />
           </div>
       </div>
     </>
