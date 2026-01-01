@@ -1,6 +1,28 @@
+import { FormEvent } from "react"
+import { useAppStore } from "../stores/useAppStore"
 
 export default function GenerateAI() {
+    
+    const showNotification = useAppStore(state => state.showNotification)
+    const generateRecipe = useAppStore(state => state.generateRecipe)
+    const recipe = useAppStore(state => state.recipe)
+    const isGenerating = useAppStore(state => state.isGenerating)
 
+    const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const form = new FormData(e.currentTarget)
+        const prompt = form.get('prompt') as string
+
+        if(prompt.trim() === ''){
+            showNotification({
+                text: 'La busqueda no puede ir vacia',
+                error: true
+            })
+            return
+        }
+        await generateRecipe(prompt)
+    }
     
     return (
         <>
@@ -8,7 +30,7 @@ export default function GenerateAI() {
 
         <div className="max-w-4xl mx-auto">
             <form  
-            onSubmit={() => {}}
+            onSubmit={handleSubmit}
             className='flex flex-col space-y-3 py-10'
             >
             <div className="relative">
@@ -21,7 +43,9 @@ export default function GenerateAI() {
                 <button 
                 type="submit" 
                 aria-label="Enviar"
-                className={`cursor-pointer absolute top-1/2 right-5 transform -translate-x-1/2 -translate-y-1/2`}
+                className={`cursor-pointer absolute top-1/2 right-5 transform -translate-x-1/2 -translate-y-1/2 
+                    ${isGenerating ? "cursor-not-allowed opacity-50" : ""}`}
+                    disabled={isGenerating}
                 >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                     stroke="currentColor" className="w-10 h-10">
@@ -31,9 +55,9 @@ export default function GenerateAI() {
                 </button>
             </div>
             </form>
-
+            {isGenerating && <p className="text-center animate-blink">Generando...</p>}
             <div className="py-10 whitespace-pre-wrap">
-
+                {recipe}
             </div>
         </div>
 
