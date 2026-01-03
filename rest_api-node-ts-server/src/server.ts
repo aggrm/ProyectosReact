@@ -2,6 +2,8 @@ import express from "express";
 import router from "./router";
 import db from "./config/db";
 import colors from "colors"
+import swaggerUI from "swagger-ui-express"
+import swaggerSepc, {swaggerUIOptions} from "./config/swagger";
 
 //conectar a base de datos
 export async function connectDB() {
@@ -23,8 +25,7 @@ const server = express()
 server.use(express.json())
 server.use('/api/products', router)
 
-server.get('/api', (req, res) =>{
-    res.json({msg: 'Desde API'})
-})
+//Docs
+server.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSepc, swaggerUIOptions))
 
 export default server
