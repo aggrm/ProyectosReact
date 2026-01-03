@@ -4,14 +4,14 @@ import db from "./config/db";
 import colors from "colors"
 
 //conectar a base de datos
-async function connectDB() {
+export async function connectDB() {
     try {
         await db.authenticate()
         db.sync()
         //console.log(colors.blue('Conexion realizada a la DB'))
     } catch (error) {
         //console.log(error)
-        console.log(colors.red.bold('Hubo un error al conectar a la DB'))
+        console.log(colors.red.bold('Hubo un error al conectar a la BD'))
     }
 }
 connectDB()
